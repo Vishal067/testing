@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Image Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+
+    #secret-image {
+      display: none;
+      max-width: 90%;
+      height: auto;
+      pointer-events: none; /* Prevent interactions */
+      user-select: none;    /* Prevent copying */
+    }
+
+    /* Overlay to deter screenshots */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.001); /* Almost invisible overlay */
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    a {
+      text-decoration: none;
+      color: white;
+      background-color: #007BFF;
+      padding: 10px 20px;
+      border-radius: 5px;
+      display: inline-block;
+    }
+
+    a:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Click the Link to View the Image</h1>
+  <a href="#" id="image-link" onclick="showImage(event)">Click to View Image</a>
+  <br><br>
+  <img id="secret-image" src="https://cdn.pixabay.com/photo/2024/05/27/07/46/bee-8790316_640.jpg" alt="Hidden Image">
+  
+  <script>
+    // Function to capture and send device information
+    function getDeviceInfo() {
+      const deviceInfo = {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        screenWidth: screen.width,
+        screenHeight: screen.height,
+        deviceMemory: navigator.deviceMemory || "Unknown",
+        language: navigator.language
+      };
+    console.log(deviceInfo);
+    alert(JSON.stringify(deviceInfo));
+    }
+
+    // Function to show the image and hide it after 1 second
+    function showImage(event) {
+      event.preventDefault(); // Prevent default link behavior
+      getDeviceInfo(); // Capture and send device info
+
+      const img = document.getElementById('secret-image');
+      img.style.display = 'block'; // Show the image
+
+      // Hide the image after 1 second
+      setTimeout(() => {
+        img.style.display = 'none';
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
